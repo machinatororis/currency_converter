@@ -26,7 +26,11 @@ class CurrencyConverterApp(ctk.CTk):
             self.destroy()
             return
 
-        self.currencies = get_currency_list(API_KEY)
+        try:
+            self.currencies = get_currency_list(API_KEY)
+        except requests.RequestException:
+            messagebox.showerror(self.t("error"), self.t("currency_list_error"))
+            self.currencies = []
 
         if self.currencies is None:
             messagebox.showerror(self.t("error"), self.t("currency_list_error"))
